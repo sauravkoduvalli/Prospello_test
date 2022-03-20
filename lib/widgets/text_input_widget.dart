@@ -4,9 +4,11 @@ import 'package:prospello_machine_task/utils/ui_helper.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final String title;
+  final TextInputType keyboardType;
   const TextFieldWidget({
     Key? key,
     required this.title,
+    required this.keyboardType,
   }) : super(key: key);
 
   @override
@@ -21,7 +23,7 @@ class TextFieldWidget extends StatelessWidget {
           ),
           UIHelper.verticalSpaceSmall(),
           TextFormField(
-            keyboardType: TextInputType.number,
+            keyboardType: keyboardType,
             textInputAction: TextInputAction.done,
             decoration: InputDecoration(
               fillColor: Colors.grey.shade200,

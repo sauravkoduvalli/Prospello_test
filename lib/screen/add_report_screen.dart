@@ -17,6 +17,7 @@ class _AddReportScreenState extends State<AddReportScreen> {
     return Scaffold(
       appBar: appBar(),
       body: Stack(
+        alignment: Alignment.bottomCenter,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -29,65 +30,86 @@ class _AddReportScreenState extends State<AddReportScreen> {
                   ],
                 ),
                 // profile details
-                const ListTileWidget(image: 'assets/images/photo.jpeg', title: 'Yaqoob kc!', subtitle: 'Shop name',)
+                const ListTileWidget(
+                  image: 'assets/images/photo.jpeg',
+                  title: 'Yaqoob kc!',
+                  subtitle: 'Shop name',
+                )
               ],
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Container(
-                child: Padding(
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.65,
+                  width: MediaQuery.of(context).size.width,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                  decoration: const BoxDecoration(
+                    color: primarylight,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(25),
+                      topLeft: Radius.circular(25),
+                    ),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      /// first input field row
                       Row(
                         children: [
                           /// first input filed - shop name
-                          const TextFieldWidget(title: 'Shop name'),
+                          const TextFieldWidget(
+                            title: 'Shop name',
+                            keyboardType: TextInputType.name,
+                          ),
                           UIHelper.horizontalSpaceMedium(),
-                          const TextFieldWidget(title: 'Location'),
+                          const TextFieldWidget(
+                            title: 'Location',
+                            keyboardType: TextInputType.name,
+                          ),
                         ],
                       ),
                       UIHelper.verticalSpaceLarge(),
+
+                      /// second input field row
                       Row(
                         children: [
                           /// first input filed - shop name
-                          const TextFieldWidget(title: 'Total amount'),
+                          const TextFieldWidget(
+                            title: 'Total amount',
+                            keyboardType: TextInputType.number,
+                          ),
                           UIHelper.horizontalSpaceMedium(),
-                          const TextFieldWidget(title: 'Target'),
+                          const TextFieldWidget(
+                            title: 'Target',
+                            keyboardType: TextInputType.name,
+                          ),
                         ],
                       ),
                       UIHelper.verticalSpaceLarge(),
+
+                      /// button for adding new shop details
                       ElevatedButton(
                         onPressed: () {},
                         child: const Text('Add More'),
                         style: ElevatedButton.styleFrom(
                           onPrimary: primarylight,
                           primary: primaryDark,
+                          elevation: 5,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0),
                           ),
-                          elevation: 5,
                         ),
                       ),
                     ],
                   ),
                 ),
-                height: MediaQuery.of(context).size.height * 0.65,
-                width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(
-                  color: primarylight,
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(25),
-                    topLeft: Radius.circular(25),
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
@@ -116,4 +138,3 @@ class _AddReportScreenState extends State<AddReportScreen> {
     );
   }
 }
-
