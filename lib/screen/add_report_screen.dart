@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prospello_machine_task/utils/colors.dart';
 import 'package:prospello_machine_task/utils/ui_helper.dart';
+import 'package:prospello_machine_task/widgets/dropdown_widget.dart';
 import 'package:prospello_machine_task/widgets/listtile_widget.dart';
 import 'package:prospello_machine_task/widgets/text_input_widget.dart';
 
@@ -14,54 +15,66 @@ class AddReportScreen extends StatefulWidget {
 class _AddReportScreenState extends State<AddReportScreen> {
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: appBar(),
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Column(
-              children: [
-                Row(
-                  children: const [
-                    // dropdown 1
-                    // dropdown 2
+          // stack first child
+          Column(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        // dropdown 1
+                        DropdownWidget(text: 'Manager Name'),
+                        // dropdown 2
+                        DropdownWidget(text: 'Person Name'),
+                      ],
+                    ),
+                    UIHelper.verticalSpaceSmall(),
+                    // profile details
+                    const ListTileWidget(
+                      image: 'assets/images/photo.jpeg',
+                      title: 'Yaqoob kc!',
+                      subtitle: 'Shop name',
+                    )
                   ],
                 ),
-                // profile details
-                const ListTileWidget(
-                  image: 'assets/images/photo.jpeg',
-                  title: 'Yaqoob kc!',
-                  subtitle: 'Shop name',
-                )
-              ],
-            ),
+              ),
+            ],
           ),
-          SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.65,
-                  width: MediaQuery.of(context).size.width,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                  decoration: const BoxDecoration(
-                    color: primarylight,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(25),
-                      topLeft: Radius.circular(25),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          /// stack second child
+          Positioned(
+            // top: 130,
+            child: Container(
+              height: screenHeight * 0.7,
+              width: screenWidth,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              decoration: const BoxDecoration(
+                color: primarylight,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(25),
+                  topLeft: Radius.circular(25),
+                ),
+              ),
+              child: ListView(
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
+                // physics: const BouncingScrollPhysics(),
+                children: [
+                  Column(
                     children: [
-                      /// first input field row
                       Row(
                         children: [
-                          /// first input filed - shop name
                           const TextFieldWidget(
                             title: 'Shop name',
                             keyboardType: TextInputType.name,
@@ -73,8 +86,7 @@ class _AddReportScreenState extends State<AddReportScreen> {
                           ),
                         ],
                       ),
-                      UIHelper.verticalSpaceLarge(),
-
+                      UIHelper.verticalSpaceMedium(),
                       /// second input field row
                       Row(
                         children: [
@@ -90,25 +102,39 @@ class _AddReportScreenState extends State<AddReportScreen> {
                           ),
                         ],
                       ),
-                      UIHelper.verticalSpaceLarge(),
-
+                      UIHelper.verticalSpaceMedium(),
                       /// button for adding new shop details
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: const Text('Add More'),
-                        style: ElevatedButton.styleFrom(
-                          onPrimary: primarylight,
-                          primary: primaryDark,
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {},
+                            child: const Text('Add More'),
+                            style: ElevatedButton.styleFrom(
+                              onPrimary: primarylight,
+                              primary: primaryDark,
+                              elevation: 5,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
-                ),
-              ],
+                  SizedBox(height: screenHeight * 0.16),
+                  SizedBox(
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Upload'),
+                      style: ElevatedButton.styleFrom(
+                          primary: primaryDark, onPrimary: primarylight),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -130,7 +156,7 @@ class _AddReportScreenState extends State<AddReportScreen> {
           ),
           child: const Padding(
             padding: EdgeInsets.only(left: 5),
-            child: Icon(Icons.arrow_back_ios, color: primaryDark, size: 20),
+            child: Icon(Icons.arrow_back_ios, color: primaryDark, size: 18),
           ),
         ),
       ),

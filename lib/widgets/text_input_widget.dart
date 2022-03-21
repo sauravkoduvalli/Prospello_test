@@ -22,26 +22,29 @@ class TextFieldWidget extends StatelessWidget {
             style: const TextStyle(color: primaryDark),
           ),
           UIHelper.verticalSpaceSmall(),
-          TextFormField(
-            keyboardType: keyboardType,
-            textInputAction: TextInputAction.done,
-            decoration: InputDecoration(
-              fillColor: Colors.grey.shade200,
-              filled: true,
-              border: InputBorder.none,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(5.0),
+          SizedBox(
+            height: 50,
+            child: TextFormField(
+              keyboardType: keyboardType,
+              textInputAction: TextInputAction.done,
+              decoration: InputDecoration(
+                fillColor: Colors.grey.shade200,
+                filled: true,
+                border: InputBorder.none,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(5.0),
+                  ),
+                  borderSide: BorderSide(color: Colors.grey.shade200),
                 ),
-                borderSide: BorderSide(color: Colors.grey.shade200),
               ),
+              // validator: (value) {
+              //   if (value == null) {
+              //     return "please enter amount";
+              //   }
+              //   return null;
+              // },
             ),
-            // validator: (value) {
-            //   if (value == null) {
-            //     return "please enter amount";
-            //   }
-            //   return null;
-            // },
           ),
         ],
       ),
