@@ -58,7 +58,7 @@ class _AddReportScreenState extends State<AddReportScreen> {
             child: Container(
               height: screenHeight * 0.7,
               width: screenWidth,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               decoration: const BoxDecoration(
                 color: primarylight,
                 borderRadius: BorderRadius.only(
@@ -68,8 +68,8 @@ class _AddReportScreenState extends State<AddReportScreen> {
               ),
               child: ListView(
                 shrinkWrap: true,
-                physics: const ClampingScrollPhysics(),
-                // physics: const BouncingScrollPhysics(),
+                // physics: const ClampingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 children: [
                   Column(
                     children: [

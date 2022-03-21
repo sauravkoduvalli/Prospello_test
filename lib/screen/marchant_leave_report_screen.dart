@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:prospello_machine_task/utils/colors.dart';
 import 'package:prospello_machine_task/utils/ui_helper.dart';
 import 'package:prospello_machine_task/widgets/dropdown_widget.dart';
+import 'package:prospello_machine_task/widgets/recent_log_card_widget.dart';
 
 class MarchantLeaveReportScreen extends StatefulWidget {
   const MarchantLeaveReportScreen({Key? key}) : super(key: key);
@@ -14,6 +14,9 @@ class MarchantLeaveReportScreen extends StatefulWidget {
 }
 
 class _MarchantLeaveReportScreenState extends State<MarchantLeaveReportScreen> {
+  final List<String> toggleLabels = ['Weekly', 'Monthly', 'All Time'];
+  int toggleCounter = 1;
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -21,34 +24,32 @@ class _MarchantLeaveReportScreenState extends State<MarchantLeaveReportScreen> {
     return Scaffold(
       appBar: appBar(),
       body: Stack(
+        alignment: Alignment.bottomCenter,
         children: [
           // first stack child
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-                height: screenHeight * 0.5,
-                child: Column(
-                  children: [
-                    Row(
-                      children: const [
-                        DropdownWidget(text: 'Person Name'),
-                      ],
-                    ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+            child: Column(
+              children: [
+                Row(
+                  children: const [
+                    DropdownWidget(text: 'Person Name'),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          /// second child
+
+          /// Second stack child
           Positioned(
-            top: screenHeight * 0.4,
+            top: screenHeight * 0.48,
+            bottom: 0,
+            left: 0,
+            right: 0,
             child: Container(
               width: screenWidth,
               height: screenHeight,
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               decoration: const BoxDecoration(
                 color: primarylight,
                 borderRadius: BorderRadius.only(
@@ -57,10 +58,14 @@ class _MarchantLeaveReportScreenState extends State<MarchantLeaveReportScreen> {
                 ),
               ),
               child: ListView(
-                shrinkWrap: false,
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
                 children: [
                   /// a button
                   ///  for downloading the report
+                  SizedBox(
+                    height: screenHeight * 0.1,
+                  ),
                   SizedBox(
                     height: 50,
                     child: ElevatedButton(
@@ -70,7 +75,7 @@ class _MarchantLeaveReportScreenState extends State<MarchantLeaveReportScreen> {
                           primary: primaryDark,
                           onPrimary: primarylight,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25))),
+                              borderRadius: BorderRadius.circular(30))),
                     ),
                   ),
                   UIHelper.verticalSpaceMedium(),
@@ -100,7 +105,10 @@ class _MarchantLeaveReportScreenState extends State<MarchantLeaveReportScreen> {
                           height: 50,
                           child: OutlinedButton(
                             onPressed: () {},
-                            child: const Text('Payment Breakdown'),
+                            child: const Text(
+                              'Payment Breakdown',
+                              textAlign: TextAlign.center,
+                            ),
                             style: OutlinedButton.styleFrom(
                               primary: primaryDark,
                               backgroundColor: primarylight,
@@ -110,7 +118,7 @@ class _MarchantLeaveReportScreenState extends State<MarchantLeaveReportScreen> {
                             ),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                   UIHelper.verticalSpaceLarge(),
@@ -124,7 +132,7 @@ class _MarchantLeaveReportScreenState extends State<MarchantLeaveReportScreen> {
                         color: Colors.pink.shade300,
                         borderRadius: BorderRadius.circular(10)),
                     padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 25),
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -162,6 +170,7 @@ class _MarchantLeaveReportScreenState extends State<MarchantLeaveReportScreen> {
                               style: TextStyle(
                                 color: primarylight,
                                 fontWeight: FontWeight.w400,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ],
@@ -173,14 +182,107 @@ class _MarchantLeaveReportScreenState extends State<MarchantLeaveReportScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
-                       Text(
+                      Text(
                         'Recent Logs',
-                        style: TextStyle(color: Colors.grey, letterSpacing: 0.7),
+                        style:
+                            TextStyle(color: Colors.grey, letterSpacing: 0.7),
                       ),
                     ],
                   ),
                   UIHelper.verticalSpaceMedium(),
+                  const RecentLogCardWidget(
+                    title: 'Wednesday',
+                    subtitle: '15 March 2020',
+                    time: '8:52 Hrs',
+                  ),
+                  UIHelper.verticalSpaceMedium(),
+                  const RecentLogCardWidget(
+                    title: 'Tuesday',
+                    subtitle: '15 March 2020',
+                    time: '3:52 Hrs',
+                  ),
                 ],
+              ),
+            ),
+          ),
+
+          /// Third Stack
+          /// this widget will show overall performance details, by using a chart view,
+          /// also, can switch with toggle bar
+          DefaultTabController(
+            length: 3,
+            child: Positioned(
+              top: screenHeight * 0.1,
+              bottom: screenHeight * 0.3,
+              right: 0,
+              left: 0,
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.all(12),
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: primarylight,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 5.0,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        const Text(
+                          'Overall Perfomance',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                            color: primaryDark,
+                          ),
+                        ),
+                        UIHelper.verticalSpaceExtraSmall(),
+                        const Text(
+                          'Jan 6 - Jan 12',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: primaryDark,
+                            letterSpacing: 0.2,
+                          ),
+                        ),
+                        UIHelper.verticalSpaceSmall(),
+
+                        /// Tabbar heads
+                        const TabbarWidget(),
+                      ],
+                    ),
+                    const Center(child: Text('Barchart view comes her')),
+                    Column(
+                      children: [
+                        const Divider(color: Colors.black54),
+                        ListTile(
+                          title: const Text('Complete View'),
+                          subtitle:
+                              const Text('View your complete view of leaves'),
+                          trailing: Container(
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                color: Colors.amber.shade100,
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.amberAccent.shade700,
+                              size: 18,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -208,6 +310,45 @@ class _MarchantLeaveReportScreenState extends State<MarchantLeaveReportScreen> {
         ),
       ),
       title: const Text('Marchant Leave Report'),
+    );
+  }
+}
+
+class TabbarWidget extends StatelessWidget {
+  const TabbarWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40,
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.blue.shade100,
+            borderRadius: BorderRadius.circular(25)),
+        child: TabBar(
+          padding: const EdgeInsets.all(3),
+          automaticIndicatorColorAdjustment: true,
+          labelColor: Colors.blue,
+          unselectedLabelColor: Colors.black54,
+          indicator: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          tabs: const [
+            Tab(
+              text: 'Weekly',
+            ),
+            Tab(
+              text: 'Monthly',
+            ),
+            Tab(
+              text: 'All Time',
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
