@@ -11,5 +11,5 @@
 
 ## Screenshots
 <div>
-  <img src="screenshots/Add shop screen.png" width=250>
+  <img src="screenshots/add_shop.png" width=250>
 </div>
