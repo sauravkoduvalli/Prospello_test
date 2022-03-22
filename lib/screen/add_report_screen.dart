@@ -13,6 +13,28 @@ class AddReportScreen extends StatefulWidget {
 }
 
 class _AddReportScreenState extends State<AddReportScreen> {
+  int count = 1;
+  List<AddShopWidget> shopList = [];
+
+  void addShop() {
+    setState(() {
+      shopList.add(AddShopWidget(index: shopList.length));
+    });
+  }
+
+  void removeShop() {
+    setState(() {
+      shopList.removeLast();
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    addShop();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -52,6 +74,7 @@ class _AddReportScreenState extends State<AddReportScreen> {
               ),
             ],
           ),
+
           /// stack second child
           Positioned(
             // top: 130,
@@ -66,75 +89,105 @@ class _AddReportScreenState extends State<AddReportScreen> {
                   topLeft: Radius.circular(25),
                 ),
               ),
-              child: ListView(
-                shrinkWrap: true,
-                // physics: const ClampingScrollPhysics(),
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  Column(
-                    children: [
-                      Row(
-                        children: [
-                          const TextFieldWidget(
-                            title: 'Shop name',
-                            keyboardType: TextInputType.name,
-                          ),
-                          UIHelper.horizontalSpaceMedium(),
-                          const TextFieldWidget(
-                            title: 'Location',
-                            keyboardType: TextInputType.name,
-                          ),
-                        ],
-                      ),
-                      UIHelper.verticalSpaceMedium(),
-                      /// second input field row
-                      Row(
-                        children: [
-                          /// first input filed - shop name
-                          const TextFieldWidget(
-                            title: 'Total amount',
-                            keyboardType: TextInputType.number,
-                          ),
-                          UIHelper.horizontalSpaceMedium(),
-                          const TextFieldWidget(
-                            title: 'Target',
-                            keyboardType: TextInputType.name,
-                          ),
-                        ],
-                      ),
-                      UIHelper.verticalSpaceMedium(),
-                      /// button for adding new shop details
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {},
-                            child: const Text('Add More'),
-                            style: ElevatedButton.styleFrom(
-                              onPrimary: primarylight,
-                              primary: primaryDark,
-                              elevation: 5,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
+              child: ListView.builder(
+                  itemCount: shopList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListView(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      children: [
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                const TextFieldWidget(
+                                  title: 'Shop name',
+                                  keyboardType: TextInputType.name,
+                                ),
+                                UIHelper.horizontalSpaceMedium(),
+                                const TextFieldWidget(
+                                  title: 'Location',
+                                  keyboardType: TextInputType.name,
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: screenHeight * 0.16),
-                  SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Upload'),
-                      style: ElevatedButton.styleFrom(
-                          primary: primaryDark, onPrimary: primarylight),
-                    ),
-                  ),
-                ],
-              ),
+                            UIHelper.verticalSpaceMedium(),
+                            Row(
+                              children: [
+                                const TextFieldWidget(
+                                  title: 'Total amount',
+                                  keyboardType: TextInputType.number,
+                                ),
+                                UIHelper.horizontalSpaceMedium(),
+                                const TextFieldWidget(
+                                  title: 'Target',
+                                  keyboardType: TextInputType.name,
+                                ),
+                              ],
+                            ),
+                            UIHelper.verticalSpaceMedium(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                shopList.length > 1
+                                    ? Container(
+                                        margin: const EdgeInsets.only(right: 8),
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              // ignore: list_remove_unrelated_type
+                                              removeShop();
+                                              print('item removed at $index');
+                                            });
+                                          },
+                                          child: const Text('Remove'),
+                                          style: ElevatedButton.styleFrom(
+                                            onPrimary: primaryDark,
+                                            primary: primarylight,
+                                            elevation: 5,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Container(),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      addShop();
+                                      print('item added at $index');
+                                    });
+                                  },
+                                  child: const Text('Add Shop'),
+                                  style: ElevatedButton.styleFrom(
+                                    onPrimary: primarylight,
+                                    primary: primaryDark,
+                                    elevation: 5,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            UIHelper.verticalSpaceMedium(),
+                          ],
+                        )
+                        // SizedBox(height: screenHeight * 0.16),
+                        // SizedBox(
+                        //   height: 50,
+                        //   child: ElevatedButton(
+                        //     onPressed: () {},
+                        //     child: const Text('Upload'),
+                        //     style: ElevatedButton.styleFrom(
+                        //         primary: primaryDark, onPrimary: primarylight),
+                        //   ),
+                        // ),
+                      ],
+                    );
+                  }),
             ),
           ),
         ],
@@ -161,6 +214,72 @@ class _AddReportScreenState extends State<AddReportScreen> {
         ),
       ),
       title: const Text('Add Shop'),
+    );
+  }
+}
+
+class AddShopWidget extends StatelessWidget {
+  final int? index;
+  final Function? addNewShop;
+  const AddShopWidget({
+    Key? key,
+    this.index,
+    this.addNewShop,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            const TextFieldWidget(
+              title: 'Shop name',
+              keyboardType: TextInputType.name,
+            ),
+            UIHelper.horizontalSpaceMedium(),
+            const TextFieldWidget(
+              title: 'Location',
+              keyboardType: TextInputType.name,
+            ),
+          ],
+        ),
+        UIHelper.verticalSpaceMedium(),
+        Row(
+          children: [
+            const TextFieldWidget(
+              title: 'Total amount',
+              keyboardType: TextInputType.number,
+            ),
+            UIHelper.horizontalSpaceMedium(),
+            const TextFieldWidget(
+              title: 'Target',
+              keyboardType: TextInputType.name,
+            ),
+          ],
+        ),
+        UIHelper.verticalSpaceMedium(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                addNewShop;
+              },
+              child: const Text('Remove'),
+              style: ElevatedButton.styleFrom(
+                onPrimary: primarylight,
+                primary: primaryDark,
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+              ),
+            ),
+          ],
+        ),
+        UIHelper.verticalSpaceMedium(),
+      ],
     );
   }
 }
