@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:prospello_machine_task/components/bar%20chart/bart_chart.dart';
 import 'package:prospello_machine_task/utils/colors.dart';
 import 'package:prospello_machine_task/utils/ui_helper.dart';
 import 'package:prospello_machine_task/widgets/dropdown_widget.dart';
@@ -24,12 +25,13 @@ class _MarchantLeaveReportScreenState extends State<MarchantLeaveReportScreen> {
     return Scaffold(
       appBar: appBar(),
       body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
         child: Stack(
           children: [
             Column(
               children: [
                 Container(
-                  height: screenHeight / 2,
+                  height: screenHeight / 1.8,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                   child: Column(
@@ -44,8 +46,7 @@ class _MarchantLeaveReportScreenState extends State<MarchantLeaveReportScreen> {
                 Container(
                   width: screenWidth,
                   height: screenHeight,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: const BoxDecoration(
                     color: primarylight,
                     borderRadius: BorderRadius.only(
@@ -72,6 +73,7 @@ class _MarchantLeaveReportScreenState extends State<MarchantLeaveReportScreen> {
                         ),
                       ),
                       UIHelper.verticalSpaceMedium(),
+
                       /// a row container 2 buttons,
                       ///  for pay slip and payment breakdown
                       Row(
@@ -199,6 +201,8 @@ class _MarchantLeaveReportScreenState extends State<MarchantLeaveReportScreen> {
                 ),
               ],
             ),
+
+            /// Overall performance barchart card view
             Positioned(
               top: screenHeight * 0.08,
               bottom: screenHeight * 0.9,
@@ -249,7 +253,14 @@ class _MarchantLeaveReportScreenState extends State<MarchantLeaveReportScreen> {
                           const TabbarWidget(),
                         ],
                       ),
-                      const Center(child: Text('Barchart view comes her')),
+                      UIHelper.verticalSpaceSmall(),
+                      Center(
+                        child: SizedBox(
+                          width: screenWidth * 0.8,
+                          height: screenHeight * 0.25,
+                          child: const BartChartWidget(),
+                        ),
+                      ),
                       Column(
                         children: [
                           const Divider(color: Colors.black54),
@@ -316,7 +327,7 @@ class TabbarWidget extends StatelessWidget {
       height: 40,
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.blue.shade100,
+            color: Colors.blue.shade50,
             borderRadius: BorderRadius.circular(25)),
         child: TabBar(
           padding: const EdgeInsets.all(3),

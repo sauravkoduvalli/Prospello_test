@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prospello_machine_task/utils/colors.dart';
-import 'package:prospello_machine_task/widgets/bottom_navbar_widget.dart';
+import 'package:prospello_machine_task/components/bottom%20naviagtion%20bar/bottom_navbar.dart';
 
 void main() {
   runApp(const MyApp());
