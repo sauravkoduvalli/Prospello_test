@@ -41,44 +41,36 @@ class _AddReportScreenState extends State<AddReportScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: appBar(),
-      body: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          // stack first child
-          Column(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        // dropdown 1
-                        DropdownWidget(text: 'Manager Name'),
-                        // dropdown 2
-                        DropdownWidget(text: 'Person Name'),
-                      ],
-                    ),
-                    UIHelper.verticalSpaceSmall(),
-                    // profile details
-                    const ListTileWidget(
-                      image: 'assets/images/photo.jpeg',
-                      title: 'Yaqoob kc!',
-                      subtitle: 'Shop name',
-                    )
-                  ],
-                ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // first child(Black bg part)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      // dropdown 1
+                      DropdownWidget(text: 'Manager Name'),
+                      // dropdown 2
+                      DropdownWidget(text: 'Person Name'),
+                    ],
+                  ),
+                  UIHelper.verticalSpaceSmall(),
+                  // profile details
+                  const ListTileWidget(
+                    image: 'assets/images/photo.jpeg',
+                    title: 'Yaqoob kc!',
+                    subtitle: 'Shop name',
+                  )
+                ],
               ),
-            ],
-          ),
-
-          /// stack second child
-          Positioned(
-            // top: 130,
-            child: Container(
+            ),
+            // second child (White bg part)
+            Container(
               height: screenHeight * 0.7,
               width: screenWidth,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
@@ -89,14 +81,16 @@ class _AddReportScreenState extends State<AddReportScreen> {
                   topLeft: Radius.circular(25),
                 ),
               ),
-              child: ListView.builder(
-                  itemCount: shopList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: shopList.length,
                       shrinkWrap: true,
                       physics: const BouncingScrollPhysics(),
-                      children: [
-                        Column(
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
                           children: [
                             Row(
                               children: [
@@ -174,23 +168,26 @@ class _AddReportScreenState extends State<AddReportScreen> {
                             ),
                             UIHelper.verticalSpaceMedium(),
                           ],
-                        )
-                        // SizedBox(height: screenHeight * 0.16),
-                        // SizedBox(
-                        //   height: 50,
-                        //   child: ElevatedButton(
-                        //     onPressed: () {},
-                        //     child: const Text('Upload'),
-                        //     style: ElevatedButton.styleFrom(
-                        //         primary: primaryDark, onPrimary: primarylight),
-                        //   ),
-                        // ),
-                      ],
-                    );
-                  }),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Upload'),
+                      style: ElevatedButton.styleFrom(
+                          primary: primaryDark, onPrimary: primarylight),
+                    ),
+                  ),
+                  const SizedBox(height: 60),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
